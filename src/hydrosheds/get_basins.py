@@ -29,8 +29,7 @@ with TemporaryDirectory(dir=here("data/hydrosheds-eu/")) as tmp:
             ])
     # unzip the data to tmp folder
     subprocess.run(["unzip", dest_zip, "-d", tmp])
-
-
+    # shapefile lint in archives, target .shp only
     shp = [f for f in os.listdir(tmp) if f.endswith(".shp")]
     shp = sorted([os.path.join(tmp, f) for f in shp])
     #read in each shapefile as gdf
