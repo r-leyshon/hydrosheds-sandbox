@@ -1,3 +1,5 @@
+# data folder
+data/
 # conda env
 hydrosheds/
 # Created by https://www.toptal.com/developers/gitignore/api/macos,python
