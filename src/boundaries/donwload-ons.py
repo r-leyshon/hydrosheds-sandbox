@@ -1,3 +1,7 @@
+"""Download Welsh LA shapefiles from ONS open geo portal.
+
+Writes to data/boundaries/.
+"""
 from pyprojroot import here
 import requests
 import geopandas as gpd
