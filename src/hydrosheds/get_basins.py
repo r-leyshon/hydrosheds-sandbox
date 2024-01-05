@@ -1,12 +1,13 @@
-import requests
+"""Download European river basin shapefiles from hydrosheds & write to file.  
+
+Only writes shapefiles clipped to Welsh extent and retaining more than one row.
+Destination folder is data/hydrosheds-eu/welsh-basins/."""
 import geopandas as gpd
 import pandas as pd
 from pyprojroot import here
 import subprocess
 from  tempfile import TemporaryDirectory
 import os
-import glob
-import matplotlib.pyplot as plt
 # boundary shapes saved to pickle in src/boundaries/download-ons.property
 boundary_pth = here("data/boundaries/Wales-LAD23.pkl")
 boundaries = pd.read_pickle(boundary_pth)
