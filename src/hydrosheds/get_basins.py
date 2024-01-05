@@ -5,16 +5,37 @@ Destination folder is data/hydrosheds-eu/welsh-basins/."""
 import subprocess
 import os
 from tempfile import TemporaryDirectory
+from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
 from pyprojroot import here
+
+def extent_from_lads(
+    lad_pth: Path=here("data/boundaries/Wales-LAD23.pkl")
+    ) -> gpd.GeoDataFrame:
+    """Read in LAD shapefile & unary union to get extent.
+
+    Parameters
+    ----------
+    lad_pth : Path, optional
+        Path to the LAD shapefile, by default
+        `here("data/boundaries/Wales-LAD23.pkl")`
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        Full extent of the LAD shapefiles.
+    """
+    boundaries = pd.read_pickle(lad_pth)
+    boundaries = gpd.GeoDataFrame(boundaries, crs=4326)
+    boundary = gpd.GeoDataFrame(
+        {'id':[1],'geometry':[boundaries.unary_union]}, crs=4326)
+    return boundary
+
+
 # boundary shapes saved to pickle in src/boundaries/download-ons.property
-boundary_pth = here("data/boundaries/Wales-LAD23.pkl")
-boundaries = pd.read_pickle(boundary_pth)
-boundaries = gpd.GeoDataFrame(boundaries, crs=4326)
-boundary = gpd.GeoDataFrame(
-    {'id':[1],'geometry':[boundaries.unary_union]}, crs=4326)
+boundary = extent_from_lads()
 # include all river levels
 EU_BASINS_URL = "https://data.hydrosheds.org/file/HydroBASINS/customized_with_lakes/hybas_lake_eu_lev01-12_v1c.zip"
 
