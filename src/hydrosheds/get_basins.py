@@ -2,12 +2,13 @@
 
 Only writes shapefiles clipped to Welsh extent and retaining more than one row.
 Destination folder is data/hydrosheds-eu/welsh-basins/."""
+import subprocess
+import os
+from tempfile import TemporaryDirectory
+
 import geopandas as gpd
 import pandas as pd
 from pyprojroot import here
-import subprocess
-from  tempfile import TemporaryDirectory
-import os
 # boundary shapes saved to pickle in src/boundaries/download-ons.property
 boundary_pth = here("data/boundaries/Wales-LAD23.pkl")
 boundaries = pd.read_pickle(boundary_pth)
