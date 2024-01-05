@@ -9,8 +9,8 @@ from tempfile import TemporaryDirectory
 import geopandas as gpd
 from pyprojroot import here
 
+os.chdir(here("src/hydrosheds/"))
 from utilities import extent_from_lads
-
 
 # boundary shapes saved to pickle in src/boundaries/download-ons.property
 boundary = extent_from_lads()
