@@ -71,6 +71,7 @@ def map_rivers(
     -------
     plt.axes
         A custom map with rivers coloured by basin.
+
     """
     fig, ax = plt.subplots(figsize=dims)
     fig.patch.set_facecolor("#232b2b")
@@ -93,13 +94,38 @@ def map_rivers(
         categorical=True,
         legend=False,
         )
+    # Custom footnote
+    footnote_text = "Data source: https://www.hydrosheds.org"
+    ax.text(
+        0.5,
+        -0.05,
+        footnote_text,
+        color="white",
+        fontsize=10,
+        ha="center",
+        va="center",
+        transform=ax.transAxes,
+    )
     if plt_pth:
         plt.savefig(
             plt_pth, dpi=600, bbox_inches="tight", pad_inches=0.3,
             )
     else:
         plt.show()
+
     return m
+
+river_m = map_rivers(
+    rivers_by_basin,
+    color_on="HYBAS_ID",
+    palette="Accent",
+    width_factor=2.0,
+    title="Welsh Rivers by Basin",
+    dims=(7,7),
+    # plt_pth=None,
+    plt_pth=here("outputs/wales/welsh-rivers-by-basin.png")
+    )
+
 
 # comparing colormaps
 # for pal in list(colormaps.keys()):
@@ -131,13 +157,3 @@ def map_rivers(
 #         title=f"Welsh Rivers",
 #         dims=(7, 7),
 #         )
-
-river_m = map_rivers(
-    rivers_by_basin,
-    color_on="HYBAS_ID",
-    palette="Accent",
-    width_factor=2.0,
-    title="Welsh Rivers by Basin",
-    dims=(7,7),
-    plt_pth=here("outputs/wales/welsh-rivers-by-basin.png")
-    )
