@@ -67,7 +67,7 @@ def map_rivers(
     # basins.boundary.plot()
     if plt_pth:
         plt.savefig(
-            plt_pth, dpi=600, bbox_inches="tight", pad_inches=0.1,
+            plt_pth, dpi=600, bbox_inches="tight", pad_inches=0.3,
             )
     else:
         plt.show()
