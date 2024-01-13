@@ -73,13 +73,13 @@ def map_rivers(
         A custom map with rivers coloured by basin.
     """
     fig, ax = plt.subplots(figsize=dims)
-    fig.patch.set_facecolor("#414a4c")
+    fig.patch.set_facecolor("#232b2b")
     # plt.title(f"{title} in {palette.name}", color="white")
     plt.title(title, color="white")
     plt.tick_params(
         left=False, bottom=False, labelleft=False, labelbottom=False
         )
-    ax.set_facecolor("#414a4c")
+    ax.set_facecolor("#232b2b")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
