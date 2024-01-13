@@ -44,12 +44,41 @@ def map_rivers(
     title:str,
     dims:tuple,
     plt_pth:pathlib.Path=None
-    ):
+    ) -> plt.axes:
+    """Plot a map of rivers. Optionally write to file.
+
+    If plt_pth is a pathlib.Path object, the map will be written, otherwise the
+    map is shown.
+
+    Parameters
+    ----------
+    gdf : gpd.GeoDataFrame
+        A geodataframe containing the river features overlayed by boundary ID.
+    color_on : str
+        The column to use for group colour.
+    palette : str
+        A valid palette key for matplotlib.colormap.
+    width_factor : int
+        The factor to multiply river width by for plotting purposes.
+    title : str
+        The text to show in the plot title.
+    dims : tuple
+        The dimensions of the plot output.
+    plt_pth : pathlib.Path, optional
+        If provided, the map will be writtent to disk, by default None
+
+    Returns
+    -------
+    plt.axes
+        A custom map with rivers coloured by basin.
+    """
     fig, ax = plt.subplots(figsize=dims)
     fig.patch.set_facecolor("#414a4c")
     # plt.title(f"{title} in {palette.name}", color="white")
     plt.title(title, color="white")
-    plt.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+    plt.tick_params(
+        left=False, bottom=False, labelleft=False, labelbottom=False
+        )
     ax.set_facecolor("#414a4c")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
@@ -64,7 +93,6 @@ def map_rivers(
         categorical=True,
         legend=False,
         )
-    # basins.boundary.plot()
     if plt_pth:
         plt.savefig(
             plt_pth, dpi=600, bbox_inches="tight", pad_inches=0.3,
