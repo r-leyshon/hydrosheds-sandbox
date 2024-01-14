@@ -7,9 +7,13 @@ from matplotlib import colormaps, pyplot as plt
 import numpy as np
 
 # define the directories
-LVL="07"
+LVL="12"
+# LVL="12"
 basins_pkl = here(f"data/hydrosheds-eu/welsh-basins/hybas_lake_eu_lev{LVL}_v1c.pkl")
+# basins_pkl = here(f"data/hydrosheds-eu/uk-basins/hybas_lake_eu_lev{LVL}_v1c.pkl")
 rivers_pkl = here("data/hydrosheds-eu/welsh-rivers/HydroRIVERS_v10_eu.pkl")
+# rivers_pkl = here("data/hydrosheds-eu/uk-rivers/HydroRIVERS_v10_eu.pkl")
+
 
 # 1. import the target pickles
 basins = pd.read_pickle(basins_pkl)
@@ -17,11 +21,12 @@ rivers = pd.read_pickle(rivers_pkl)
 basins = gpd.GeoDataFrame(basins, crs=4326)
 rivers = gpd.GeoDataFrame(rivers, crs=4326)
 # calculate total length in km
-river_len = sum(rivers["LENGTH_KM"])
+# river_len = sum(rivers["LENGTH_KM"])
 
 rivers_by_basin = gpd.overlay(rivers,basins, how="intersection", keep_geom_type=False)
 # rivers_by_basin["ORD_FLOW"].unique()
 # [array([7, 6, 5, 4])]
+# uk includes ORD_FLOW 8
 # Define conditions and values
 conditions = [
     (rivers_by_basin["ORD_FLOW"] == 7),
@@ -29,7 +34,15 @@ conditions = [
     (rivers_by_basin["ORD_FLOW"] == 5),
     (rivers_by_basin["ORD_FLOW"] == 4),
 ]
+# conditions = [
+#     (rivers_by_basin["ORD_FLOW"] == 8),
+#     (rivers_by_basin["ORD_FLOW"] == 7),
+#     (rivers_by_basin["ORD_FLOW"] == 6),
+#     (rivers_by_basin["ORD_FLOW"] == 5),
+#     (rivers_by_basin["ORD_FLOW"] == 4),
+# ]
 values = [0.8, 0.6, 0.4, 0.2]
+# values = [0.9, 0.8, 0.6, 0.4, 0.2]
 # equivalent to case_when
 rivers_by_basin["width"] = np.select(conditions, values, default=0.0)
 
@@ -115,12 +128,25 @@ def map_rivers(
 
     return m
 
+
+
+# river_m = map_rivers(
+#     rivers_by_basin,
+#     color_on="HYBAS_ID",
+#     palette="Accent",
+#     width_factor=2.0,
+#     title=f"UK Rivers by Level {LVL} Basin",
+#     dims=(14,18),
+#     # plt_pth=None,
+#     plt_pth=here("outputs/uk/uk-rivers-by-basin.png")
+#     )
+
 river_m = map_rivers(
     rivers_by_basin,
     color_on="HYBAS_ID",
     palette="Accent",
     width_factor=2.0,
-    title="Welsh Rivers by Basin",
+    title=f"Welsh Rivers by Level {LVL} Basin",
     dims=(7,7),
     # plt_pth=None,
     plt_pth=here("outputs/wales/welsh-rivers-by-basin.png")
